@@ -1,9 +1,10 @@
 import express from 'express';
-import {ENV} from './lib/env.js'
+import { ENV } from './lib/env.js'
 import path from 'path'
 import { fileURLToPath } from "url";
+import { connectDB } from './lib/db.js';
 
-const app=express();
+const app = express();
 
 // ✅ Proper __dirname in ESM (since "type": "module" in backend/package.json)
 const __filename = fileURLToPath(import.meta.url);
@@ -12,10 +13,10 @@ const __dirname = path.dirname(__filename);
 
 
 
-app.get("/",(req,res)=>{
-    res.status(200).json({
-        msg:"success from api2e2"
-    })
+app.get("/", (req, res) => {
+  res.status(200).json({
+    msg: "success from api2e2"
+  })
 });
 
 
@@ -34,6 +35,16 @@ if (ENV.NODE_ENV === "production") {
   });
 }
 
-app.listen(ENV.PORT,()=>{
-    console.log("server is running on:"+ENV.PORT);
-})
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(ENV.PORT, () => {
+      console.log("server is running on:" + ENV.PORT);
+    })
+
+  } catch (error) {
+    console.error("Error to start server" + error);
+
+  }
+}
+startServer();
