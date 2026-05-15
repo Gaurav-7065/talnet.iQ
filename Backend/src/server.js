@@ -4,6 +4,9 @@ import path from 'path'
 import { fileURLToPath } from "url";
 import { connectDB } from './lib/db.js';
 import cors from 'cors'
+import { serve } from "inngest/express";
+import { inngest, functions } from "./src/inngest"
+
 
 const app = express();
 
@@ -15,6 +18,8 @@ const __dirname = path.dirname(__filename);
 app.use(express.json());
 //credential:true meaning?->it server allow a browser to include cookies on request
 app.use(cors({origin:ENV.CLIENT_URL,credentials:true}));
+
+app.use("/api/inngest", serve({ client: inngest, functions }));
 
 
 
