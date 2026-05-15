@@ -3,12 +3,18 @@ import { ENV } from './lib/env.js'
 import path from 'path'
 import { fileURLToPath } from "url";
 import { connectDB } from './lib/db.js';
+import cors from 'cors'
 
 const app = express();
 
 // ✅ Proper __dirname in ESM (since "type": "module" in backend/package.json)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+//middleware
+app.use(express.json());
+//credential:true meaning?->it server allow a browser to include cookies on request
+app.use(cors({origin:ENV.CLIENT_URL,credentials:true}));
 
 
 
