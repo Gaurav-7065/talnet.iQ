@@ -37,6 +37,7 @@ app.get("/", (req, res) => {
   })
 });
 app.get("/health",clerkMiddleware(),(req,res)=>{
+  res.status(200).json({message:"Api is running live"});
 
 })
 app.get("/protectroute",protectRoute,(req,res)=>{
