@@ -1,7 +1,7 @@
 import { Inngest } from "inngest";
 import {connectDB} from './db.js'
 import User from '../models/User.js'
-import { upsertStramUser } from "./stream.js";
+import { upsertStreamUser,deleteUser } from "./stream.js";
 export const inngest = new Inngest({ id: "talent-iq" });
 
 
@@ -20,7 +20,7 @@ const syncUser=inngest.createFunction(
         }
         await User.create(newUser);
         //to do something else
-        await upsertStramUser({
+        await upsertStreamUser({
             id:newUser.clerkId.toString(),
             name:newUser.name,
             image:newUser.ProfileImage

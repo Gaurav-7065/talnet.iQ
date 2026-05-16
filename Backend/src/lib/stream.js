@@ -8,7 +8,7 @@ if(!apiKey||!apiStream){
 }
 
 export const chatClient=StreamChat.getInstance(apiKey,apiStream);
-export const upsertStramUser=async (userData)=>{
+export const upsertStreamUser=async (userData)=>{
 
     try{
         await chatClient.upsertUser(userData);
