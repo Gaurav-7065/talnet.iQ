@@ -26,6 +26,7 @@ const syncUser=inngest.createFunction(
             name:newUser.name,
             image:newUser.ProfileImage
         })
+        //chllenge :Welcome email here later-once I complete 
     }
 )
 const deleteUser=inngest.createFunction(
