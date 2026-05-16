@@ -1,7 +1,8 @@
 import { Inngest } from "inngest";
 import {connectDB} from './db.js'
 import User from '../models/User.js'
-import { upsertStreamUser,deleteUser } from "./stream.js";
+import {deleteStreamUser, upsertStreamUser } from "./stream.js";
+
 export const inngest = new Inngest({ id: "talent-iq" });
 
 
@@ -35,7 +36,7 @@ const deleteUser=inngest.createFunction(
         const {id}=event.data;
         await User.deleteOne({clerkId:id})
         //to do sthe
-        await deleteUser(id.toString());
+        await deleteStreamUser(id.toString());
 
     }
 
