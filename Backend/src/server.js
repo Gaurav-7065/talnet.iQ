@@ -6,9 +6,13 @@ import { connectDB } from './lib/db.js';
 import cors from 'cors'
 import { serve } from "inngest/express";
 import { inngest, functions } from "./lib/inngest.js"
+import { clerkMiddleware } from '@clerk/express'
+import { protectRoute } from './middleware/protectRoute.js';
+import chatRoutes from './routes/chatRoute.js'
 
 
 const app = express();
+
 
 // ✅ Proper __dirname in ESM (since "type": "module" in backend/package.json)
 const __filename = fileURLToPath(import.meta.url);
@@ -18,8 +22,11 @@ const __dirname = path.dirname(__filename);
 app.use(express.json());
 //credential:true meaning?->it server allow a browser to include cookies on request
 app.use(cors({origin:ENV.CLIENT_URL,credentials:true}));
+app.use(clerkMiddleware())//this allow auth field to request:-> req.auth()
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
+app.use("/api/chat", chatRoutes);
+
 
 
 
@@ -29,7 +36,12 @@ app.get("/", (req, res) => {
     msg: "success from api2e2"
   })
 });
+app.get("/health",clerkMiddleware(),(req,res)=>{
 
+})
+app.get("/protectroute",protectRoute,(req,res)=>{
+   res.json({msg:"hello"});
+})
 
 // ----------------- SERVE FRONTEND IN PROD -----------------
 // This runs when NODE_ENV = "production" (on Vercel)
