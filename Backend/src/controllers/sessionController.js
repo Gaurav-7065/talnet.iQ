@@ -113,7 +113,7 @@ export async function joinSession(req,res){
             res.status(400).json({message:"host cannot join there own session as a participent"});
         }
 
-        if(session.participant) res.status(400).json({message:"Session is full"})
+        if(session.participant) res.status(409).json({message:"Session is full"})
          
         session.participant=userId;
         await session.save();
