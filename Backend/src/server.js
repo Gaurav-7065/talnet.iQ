@@ -4,11 +4,13 @@ import path from 'path'
 import { fileURLToPath } from "url";
 import { connectDB } from './lib/db.js';
 import cors from 'cors'
+
 import { serve } from "inngest/express";
 import { inngest, functions } from "./lib/inngest.js"
 import { clerkMiddleware } from '@clerk/express'
 import { protectRoute } from './middleware/protectRoute.js';
 import chatRoutes from './routes/chatRoute.js'
+import sessionRoute from './routes/sessionRoute.js';
 
 
 const app = express();
@@ -26,6 +28,7 @@ app.use(clerkMiddleware())//this allow auth field to request:-> req.auth()
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/chat", chatRoutes);
+app.use("/api/chat", sessionRoute);
 
 
 
