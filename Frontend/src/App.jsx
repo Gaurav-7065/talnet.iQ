@@ -34,7 +34,7 @@ if(!isLoaded) return null;
         <Route path="/session/:id" element={isSignedIn ? <SessionPage /> : <Navigate to={"/"} />} />
 
       </Routes>
-      <Toaster toastOptions={{duration:300}}/>
+      <Toaster toastOptions={{duration:3000}}/>
     </>
   )
 }
