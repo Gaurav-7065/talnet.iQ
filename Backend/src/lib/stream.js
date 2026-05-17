@@ -1,13 +1,18 @@
 import { StreamChat } from "stream-chat";
+
+import {StreamClient} from "@stream-io/node-sdk";
 import { ENV } from "./env.js";
 
+
 const apiKey=ENV.STREAM_API_KEY;
-const apiStream=ENV.STREAM_API_SECRET;
-if(!apiKey||!apiStream){
+const apiSecret=ENV.STREAM_API_SECRET;
+if(!apiKey||!apiSecret){
     console.error("STREAM_API_KEY && STREAM_API_SECRET are invalid")
 }
 
-export const chatClient=StreamChat.getInstance(apiKey,apiStream);
+export const chatClient=StreamChat.getInstance(apiKey,apiSecret);//used for chat
+export const sessionClient=new StreamClient(apiKey,apiSecret);//used for video calls
+
 export const upsertStreamUser=async (userData)=>{
 
     try{
@@ -28,4 +33,4 @@ export const deleteStreamUser=async(userID)=>{
         console.error("Error deleting the stream User",error)
     }
 }
-//todo add another to genr token
+
