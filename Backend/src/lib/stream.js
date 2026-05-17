@@ -7,7 +7,7 @@ import { ENV } from "./env.js";
 const apiKey=ENV.STREAM_API_KEY;
 const apiSecret=ENV.STREAM_API_SECRET;
 if(!apiKey||!apiSecret){
-    console.error("STREAM_API_KEY && STREAM_API_SECRET are invalid")
+    throw new Error("STREAM_API_KEY and STREAM_API_SECRET must be set");
 }
 
 export const chatClient=StreamChat.getInstance(apiKey,apiSecret);//used for chat

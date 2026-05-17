@@ -1,5 +1,5 @@
 import { StreamClient } from '@stream-io/node-sdk';
-import {chatClient,sessionClient} from '../lib/stream.js'
+import {chatClient} from '../lib/stream.js'
 import  Session  from '../models/Session.js'
 
 
@@ -12,7 +12,7 @@ export async function createSession(req,res) {
     if(!problem||!difficulty) {
         return res.status(400).json({message:"Problem and difficulty are required"})
     }
-    const callId=`session_${Date.now()}_${Math.random().toString(36).substring}`;
+    const callId=`session_${Date.now()}_${Math.random().toString(36).substring(7)}`;
 
     //create session in db
     const session=await Session.create({problem,difficulty,host:userId,callId});
@@ -26,7 +26,7 @@ export async function createSession(req,res) {
     })
 
     //chat messaging
-    const channel=chatClient.channel("messaging",clerkId,{
+    const channel=chatClient.channel("messaging",callId,{
         name:`${problem} session`,
         created_by:clerkId,
         members:[clerkId]
@@ -40,7 +40,7 @@ export async function getActiveSessions(req,res) {
         const session=await Session.find({status:"active"})
         .populate("host","name email profileImage clerkId")
         .sort({createdAt: -1})
-        .list(20);
+        .limit(20);
 
         res.status(200).json({session});
         
@@ -79,7 +79,7 @@ export async function getSessionById(req,res){
 
         const session=await Session.findById(id)
         .populate("host","name profileImage email clerkId")
-        .populate("participent","name profileImage email clerkId")
+        .populate("participant","name profileImage email clerkId")
         
         if(!session) return  res.status(404).json({message:"Session not found"});
 
@@ -106,19 +106,19 @@ export async function joinSession(req,res){
 
         if(!session) return res.status(404).json({message:"Session not found"});
         if(session.status!=="active"){
-            res.status(400).json("Cannot join a completed Session");
+           return res.status(400).json("Cannot join a completed Session");
         }
         //host cannot join there own session as a participent
         if(session.host.toString()===userId.toString()){
-            res.status(400).json({message:"host cannot join there own session as a participent"});
+           return res.status(400).json({message:"host cannot join there own session as a participant"});
         }
 
-        if(session.participant) res.status(409).json({message:"Session is full"})
+        if(session.participant)return res.status(409).json({message:"Session is full"})
          
         session.participant=userId;
         await session.save();
 
-        const channel=chatClient.channel("message",callId);
+        const channel=chatClient.channel("messaging",session.callId);
         await channel.addMembers([clerkId])
 
         res.status(200).json({session});
@@ -145,7 +145,7 @@ export async function endSession(req, res){
         }
         //check is session is completed
         if(session.status=="completed"){
-            return res.status(400).jso({message:"Session is already completed"});
+            return res.status(400).json({message:"Session is already completed"});
         }
 
         //delete stream video call
@@ -153,7 +153,7 @@ export async function endSession(req, res){
         await call.delete({hard:true});
 
         //delete stream chat channel
-        const channel=chatClient.channel("message",session.callId);
+        const channel=chatClient.channel("messaging",session.callId);
         await channel.delete();
 
         session.status="completed";
