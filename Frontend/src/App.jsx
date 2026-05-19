@@ -12,7 +12,7 @@ import HomePage from './pages/HomePage';
 import ProblemPage from './pages/ProblemPage';
 import DashboardPage from './pages/Dashboard';
 import SessionPage from './pages/SessionPage';
-import ProblemsPages from './pages/ProblemsPages';
+import ProblemsPage from './pages/ProblemsPages';
 
 
 
