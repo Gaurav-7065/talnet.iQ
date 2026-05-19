@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar.jsx";
 
 import { PROBLEMS } from "../data/problems";
 import { ChevronRightIcon, Code2Icon } from "lucide-react";
@@ -15,7 +15,6 @@ function ProblemsPage() {
   return (
     <div className="min-h-screen bg-base-200">
       <Navbar />
-
       <div className="max-w-6xl mx-auto px-4 py-12">
         {/* HEADER */}
         <div className="mb-8">
