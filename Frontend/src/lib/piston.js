@@ -29,16 +29,25 @@ export async function executeCode(language, code) {
     );
 
     const result = await response.json();
-    console.log(result);
-
-    if (result.stderr) {
+    if (!response.ok) {
       return {
         success: false,
-        error: result.stderr,
+        error: result?.message || `Execution request failed (${response.status})`,
+      };
+    }
+    const statusId = result?.status?.id;
+    const errorText =
+      result?.stderr ||
+      result?.compile_output ||
+      result?.message ||
+      (statusId && statusId !== 3 ? result?.status?.description : "");
+    if (errorText) {
+      return {
+        success: false,
+        error: errorText,
         output: result.stdout || ""
       };
     }
-
     return {
       success: true,
       output: result.stdout || "No output"
