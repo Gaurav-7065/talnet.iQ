@@ -7,7 +7,7 @@ export const PROBLEMS = {
     description: {
       text: "Given an array of integers nums and an integer target, return indices of the two numbers in the array such that they add up to target.",
       notes: [
-        "You may assume that each input would have exactly one solution, and you may not use the same element twice.",
+        "You may assume that each input would have exactly one Solution, and you may not use the same element twice.",
         "You can return the answer in any order.",
       ],
     },
@@ -34,7 +34,7 @@ export const PROBLEMS = {
     ],
     starterCode: {
       javascript: `function twoSum(nums, target) {
-  // Write your solution here
+  // Write your Solution here
   
 }
 
@@ -43,7 +43,7 @@ console.log(twoSum([2, 7, 11, 15], 9)); // Expected: [0, 1]
 console.log(twoSum([3, 2, 4], 6)); // Expected: [1, 2]
 console.log(twoSum([3, 3], 6)); // Expected: [0, 1]`,
       python: `def twoSum(nums, target):
-    # Write your solution here
+    # Write your Solution here
     pass
 
 # Test cases
@@ -52,9 +52,9 @@ print(twoSum([3, 2, 4], 6))  # Expected: [1, 2]
 print(twoSum([3, 3], 6))  # Expected: [0, 1]`,
       java: `import java.util.*;
 
-class Solution {
+class Main {
     public static int[] twoSum(int[] nums, int target) {
-        // Write your solution here
+        // Write your Solution here
         
         return new int[0];
     }
@@ -95,7 +95,7 @@ class Solution {
     constraints: ["1 ≤ s.length ≤ 10⁵", "s[i] is a printable ascii character"],
     starterCode: {
       javascript: `function reverseString(s) {
-  // Write your solution here
+  // Write your Solution here
   
 }
 
@@ -108,7 +108,7 @@ let test2 = ["H","a","n","n","a","h"];
 reverseString(test2);
 console.log(test2); // Expected: ["h","a","n","n","a","H"]`,
       python: `def reverseString(s):
-    # Write your solution here
+    # Write your Solution here
     pass
 
 # Test cases
@@ -121,9 +121,9 @@ reverseString(test2)
 print(test2)  # Expected: ["h","a","n","n","a","H"]`,
       java: `import java.util.*;
 
-class Solution {
+class Main {
     public static void reverseString(char[] s) {
-        // Write your solution here
+        // Write your Solution here
         
     }
     
@@ -175,7 +175,7 @@ class Solution {
     constraints: ["1 ≤ s.length ≤ 2 * 10⁵", "s consists only of printable ASCII characters"],
     starterCode: {
       javascript: `function isPalindrome(s) {
-  // Write your solution here
+  // Write your Solution here
   
 }
 
@@ -184,16 +184,16 @@ console.log(isPalindrome("A man, a plan, a canal: Panama")); // Expected: true
 console.log(isPalindrome("race a car")); // Expected: false
 console.log(isPalindrome(" ")); // Expected: true`,
       python: `def isPalindrome(s):
-    # Write your solution here
+    # Write your Solution here
     pass
 
 # Test cases
 print(isPalindrome("A man, a plan, a canal: Panama"))  # Expected: True
 print(isPalindrome("race a car"))  # Expected: False
 print(isPalindrome(" "))  # Expected: True`,
-      java: `class Solution {
+      java: `class Main {
     public static boolean isPalindrome(String s) {
-        // Write your solution here
+        // Write your Solution here
         
         return false;
     }
@@ -241,7 +241,7 @@ print(isPalindrome(" "))  # Expected: True`,
     constraints: ["1 ≤ nums.length ≤ 10⁵", "-10⁴ ≤ nums[i] ≤ 10⁴"],
     starterCode: {
       javascript: `function maxSubArray(nums) {
-  // Write your solution here
+  // Write your Solution here
   
 }
 
@@ -250,16 +250,16 @@ console.log(maxSubArray([-2,1,-3,4,-1,2,1,-5,4])); // Expected: 6
 console.log(maxSubArray([1])); // Expected: 1
 console.log(maxSubArray([5,4,-1,7,8])); // Expected: 23`,
       python: `def maxSubArray(nums):
-    # Write your solution here
+    # Write your Solution here
     pass
 
 # Test cases
 print(maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))  # Expected: 6
 print(maxSubArray([1]))  # Expected: 1
 print(maxSubArray([5,4,-1,7,8]))  # Expected: 23`,
-      java: `class Solution {
+      java: `class Main {
     public static int maxSubArray(int[] nums) {
-        // Write your solution here
+        // Write your Solution here
         
         return 0;
     }
@@ -306,7 +306,7 @@ print(maxSubArray([5,4,-1,7,8]))  # Expected: 23`,
     constraints: ["n == height.length", "2 ≤ n ≤ 10⁵", "0 ≤ height[i] ≤ 10⁴"],
     starterCode: {
       javascript: `function maxArea(height) {
-  // Write your solution here
+  // Write your Solution here
   
 }
 
@@ -314,15 +314,15 @@ print(maxSubArray([5,4,-1,7,8]))  # Expected: 23`,
 console.log(maxArea([1,8,6,2,5,4,8,3,7])); // Expected: 49
 console.log(maxArea([1,1])); // Expected: 1`,
       python: `def maxArea(height):
-    # Write your solution here
+    # Write your Solution here
     pass
 
 # Test cases
 print(maxArea([1,8,6,2,5,4,8,3,7]))  # Expected: 49
 print(maxArea([1,1]))  # Expected: 1`,
-      java: `class Solution {
+      java: `class Main {
     public static int maxArea(int[] height) {
-        // Write your solution here
+        // Write your Solution here
         
         return 0;
     }
