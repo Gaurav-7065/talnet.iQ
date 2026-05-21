@@ -35,18 +35,18 @@ app.get("/health", (req, res) => {
 
 // ----------------- SERVE FRONTEND IN PROD -----------------
 // This runs when NODE_ENV = "production" (on Vercel)
-if (ENV.NODE_ENV === "production") {
-  // server.js is in backend/src -> go two levels up to project root, then frontend/dist
-  const distPath = path.join(__dirname, "../../frontend/dist");
+// if (ENV.NODE_ENV === "production") {
+//   // server.js is in backend/src -> go two levels up to project root, then frontend/dist
+//   const distPath = path.join(__dirname, "../../frontend/dist");
 
-  app.use(express.static(distPath));
+//   app.use(express.static(distPath));
 
-  // SPA fallback: any non-API route returns index.html
-  // ❗ use "/*" not "/{*any}"
-  app.get("/{*any}", (req, res) => {
-    res.sendFile(path.join(distPath, "index.html"));
-  });
-}
+//   // SPA fallback: any non-API route returns index.html
+//   // ❗ use "/*" not "/{*any}"
+//   app.get("/{*any}", (req, res) => {
+//     res.sendFile(path.join(distPath, "index.html"));
+//   });
+// }
 
 // ----------------- DATABASE CONNECTION -----------------
 let dbConnected = false;
