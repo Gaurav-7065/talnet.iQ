@@ -1,47 +1,37 @@
-import express from 'express';
-import { ENV } from './lib/env.js'
-import path from 'path'
+import express from "express";
+import path from "path";
 import { fileURLToPath } from "url";
-import { connectDB } from './lib/db.js';
-import cors from 'cors'
-
+import { ENV } from "./lib/env.js";
+import { connectDB } from "./lib/db.js";
+import cors from "cors";
 import { serve } from "inngest/express";
-import { inngest, functions } from "./lib/inngest.js"
-import { clerkMiddleware } from '@clerk/express'
-import { protectRoute } from './middleware/protectRoute.js';
-import chatRoutes from './routes/chatRoute.js'
-import sessionRoute from './routes/sessionRoute.js';
-
+import { inngest, functions } from "./lib/inngest.js";
+import { clerkMiddleware } from "@clerk/express";
+import chatRoutes from "./routes/chatRoutes.js"
+import sessionRoutes from "./routes/sessionRoutes.js"
 
 const app = express();
-
 
 // ✅ Proper __dirname in ESM (since "type": "module" in backend/package.json)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-//middleware
+// ----------------- MIDDLEWARE -----------------
 app.use(express.json());
-//credential:true meaning?->it server allow a browser to include cookies on request
-app.use(cors({origin:ENV.CLIENT_URL,credentials:true}));
-app.use(clerkMiddleware())//this allow auth field to request:-> req.auth()
+app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
+app.use(clerkMiddleware()); // this adds auth field to request object: req.auth()
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/chat", chatRoutes);
-app.use("/api/sessions", sessionRoute);
+app.use("/api/sessions", sessionRoutes);
 
-app.get("/", (req, res) => {
+// ----------------- ROUTES -----------------
+app.get("/health", (req, res) => {
   res.status(200).json({
-    msg: "success from api2e2"
-  })
+    msg: "api is up and running",
+  });
 });
-app.get("/health",clerkMiddleware(),(req,res)=>{
-  res.status(200).json({message:"Api is running live"});
 
-})
-app.get("/protectroute",protectRoute,(req,res)=>{
-   res.json({msg:"hello"});
-})
 
 // ----------------- SERVE FRONTEND IN PROD -----------------
 // This runs when NODE_ENV = "production" (on Vercel)
@@ -58,16 +48,43 @@ if (ENV.NODE_ENV === "production") {
   });
 }
 
-const startServer = async () => {
-  try {
+// ----------------- DATABASE CONNECTION -----------------
+let dbConnected = false;
+
+async function ensureDB() {
+  if (!dbConnected) {
     await connectDB();
-    app.listen(ENV.PORT, () => {
-      console.log("server is running on:" + ENV.PORT);
-    })
-
-  } catch (error) {
-    console.error("Error to start server" + error);
-
+    dbConnected = true;
+    console.log("✅ MongoDB connected");
   }
 }
-startServer();
+
+// ----------------- LOCAL VS VERCEL -----------------
+// Locally: run `npm run start` from backend → start normal server
+if (!process.env.VERCEL) {
+  const startServer = async () => {
+    try {
+      await ensureDB();
+      app.listen(ENV.PORT, () =>
+        console.log("Server is running on port:", ENV.PORT)
+      );
+    } catch (error) {
+      console.error("💥 Error starting the server", error);
+    }
+  };
+
+  startServer();
+} else {
+  // On Vercel: no app.listen, just make sure DB is ready on cold start
+  ensureDB().catch((err) =>
+    console.error("💥 Error connecting to DB on Vercel", err)
+  );
+}
+
+// ----------------- EXPORT FOR VERCEL -----------------
+// Vercel will import this Express app (via root index.js)
+export default app;
+
+
+
+//development
