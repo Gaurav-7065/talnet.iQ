@@ -6,11 +6,11 @@ export const sessionApi = {
     return response.data;
   },
 
-  getActivesessions: async () => {
+  getActiveSessions: async () => {
     const response = await axiosInstance.get("/sessions/active");
     return response.data;
   },
-  getMyRecentsessions: async () => {
+  getMyRecentSessions: async () => {
     const response = await axiosInstance.get("/sessions/my-recent");
     return response.data;
   },
