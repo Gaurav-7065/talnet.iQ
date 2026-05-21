@@ -46,9 +46,9 @@ if (ENV.NODE_ENV === "production") {
 
   // SPA fallback: any non-API route returns index.html
   // ❗ use "/*" not "/{*any}"
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(distPath, "index.html"));
-  });
+ app.get("/*", (req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
 }
 
 // ----------------- DATABASE CONNECTION -----------------
