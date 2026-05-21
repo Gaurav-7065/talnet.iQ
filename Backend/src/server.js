@@ -1,14 +1,13 @@
 import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
 import { ENV } from "./lib/env.js";
 import { connectDB } from "./lib/db.js";
 import cors from "cors";
 import { serve } from "inngest/express";
 import { inngest, functions } from "./lib/inngest.js";
 import { clerkMiddleware } from "@clerk/express";
-import chatRoutes from "./routes/chatRoutes.js"
-import sessionRoutes from "./routes/sessionRoutes.js"
+
+import chatRoutes from "./routes/chatRoutes.js";
+import sessionRoutes from "./routes/sessionRoutes.js";
 
 const app = express();
 
