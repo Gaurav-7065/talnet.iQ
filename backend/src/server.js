@@ -1,20 +1,19 @@
 import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
 import { ENV } from "./lib/env.js";
 import { connectDB } from "./lib/db.js";
 import cors from "cors";
 import { serve } from "inngest/express";
 import { inngest, functions } from "./lib/inngest.js";
 import { clerkMiddleware } from "@clerk/express";
-import chatRoutes from "./routes/chatRoutes.js"
-import sessionRoutes from "./routes/sessionRoutes.js"
+
+import chatRoutes from "./routes/chatRoutes.js";
+import sessionRoutes from "./routes/sessionRoutes.js";
 
 const app = express();
 
 // ✅ Proper __dirname in ESM (since "type": "module" in backend/package.json)
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 // ----------------- MIDDLEWARE -----------------
 app.use(express.json());
@@ -35,19 +34,6 @@ app.get("/health", (req, res) => {
 
 // ----------------- SERVE FRONTEND IN PROD -----------------
 // This runs when NODE_ENV = "production" (on Vercel)
-if (ENV.NODE_ENV === "production") {
-  // server.js is in backend/src -> go two levels up to project root, then frontend/dist
-  const distPath = path.join(__dirname, "../../frontend/dist");
-
-  app.use(express.static(distPath));
-
-  // SPA fallback: any non-API route returns index.html
-  // ❗ use "/*" not "/{*any}"
-  app.get("/{*any}", (req, res) => {
-    res.sendFile(path.join(distPath, "index.html"));
-  });
-}
-
 // ----------------- DATABASE CONNECTION -----------------
 let dbConnected = false;
 
