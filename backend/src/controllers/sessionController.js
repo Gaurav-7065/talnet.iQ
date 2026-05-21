@@ -1,5 +1,5 @@
-import { chatClient, streamClient } from "../lib/stream.js";
 import Session from "../models/Session.js";
+import { chatClient, streamClient } from "../lib/stream.js";
 
 export async function createSession(req, res) {
   try {
@@ -8,14 +8,23 @@ export async function createSession(req, res) {
     const clerkId = req.user.clerkId;
 
     if (!problem || !difficulty) {
-      return res.status(400).json({ message: "Problem and difficulty are required" });
+      return res
+        .status(400)
+        .json({ message: "Problem and difficulty are required" });
     }
 
     // generate a unique call id for stream video
-    const callId = `session_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    const callId = `session_${Date.now()}_${Math.random()
+      .toString(36)
+      .substring(7)}`;
 
     // create session in db
-    const session = await Session.create({ problem, difficulty, host: userId, callId });
+    const session = await Session.create({
+      problem,
+      difficulty,
+      host: userId,
+      callId,
+    });
 
     // create stream video call
     await streamClient.video.call("default", callId).getOrCreate({
@@ -41,7 +50,7 @@ export async function createSession(req, res) {
   }
 }
 
-export async function getActiveSessions(_, res) {
+export async function getActiveSessions(req, res) {
   try {
     const sessions = await Session.find({ status: "active" })
       .populate("host", "name profileImage email clerkId")
@@ -103,15 +112,20 @@ export async function joinSession(req, res) {
     if (!session) return res.status(404).json({ message: "Session not found" });
 
     if (session.status !== "active") {
-      return res.status(400).json({ message: "Cannot join a completed session" });
+      return res
+        .status(400)
+        .json({ message: "Cannot join a completed session" });
     }
 
     if (session.host.toString() === userId.toString()) {
-      return res.status(400).json({ message: "Host cannot join their own session as participant" });
+      return res
+        .status(400)
+        .json({ message: "Host cannot join their own session as participant" });
     }
 
     // check if session is already full - has a participant
-    if (session.participant) return res.status(409).json({ message: "Session is full" });
+    if (session.participant)
+      return res.status(409).json({ message: "Session is full" });
 
     session.participant = userId;
     await session.save();
@@ -127,7 +141,7 @@ export async function joinSession(req, res) {
 }
 
 export async function endSession(req, res) {
-  try {
+    try {
     const { id } = req.params;
     const userId = req.user._id;
 
