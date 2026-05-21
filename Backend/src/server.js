@@ -28,11 +28,7 @@ app.use(clerkMiddleware())//this allow auth field to request:-> req.auth()
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/chat", chatRoutes);
-app.use("/api/chat", sessionRoute);
-
-
-
-
+app.use("/api/sessions", sessionRoute);
 
 app.get("/", (req, res) => {
   res.status(200).json({

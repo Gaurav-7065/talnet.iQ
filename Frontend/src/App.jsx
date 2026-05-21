@@ -10,7 +10,7 @@ import {
 import {Toaster} from 'react-hot-toast'
 import HomePage from './pages/HomePage';
 import ProblemPage from './pages/ProblemPage';
-import DashboardPage from './pages/Dashboard';
+import DashboardPage from './pages/DashboardPage';
 import SessionPage from './pages/SessionPage';
 import ProblemsPage from './pages/ProblemsPages';
 
