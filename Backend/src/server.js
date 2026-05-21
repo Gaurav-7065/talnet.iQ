@@ -12,8 +12,8 @@ import sessionRoutes from "./routes/sessionRoutes.js";
 const app = express();
 
 // ✅ Proper __dirname in ESM (since "type": "module" in backend/package.json)
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 // ----------------- MIDDLEWARE -----------------
 app.use(express.json());
