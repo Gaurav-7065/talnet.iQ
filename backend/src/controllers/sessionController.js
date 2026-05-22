@@ -43,6 +43,10 @@ export async function createSession(req, res) {
 
 export async function getActiveSessions(_, res) {
   try {
+    console.log("REQ USer",req.user);
+    console.log("USER ID:", userId);
+
+
     const sessions = await Session.find({ status: "active" })
       .populate("host", "name profileImage email clerkId")
       .populate("participant", "name profileImage email clerkId")
