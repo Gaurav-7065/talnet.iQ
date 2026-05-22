@@ -19,7 +19,7 @@ const __dirname = path.dirname(__filename);
 
 // ----------------- MIDDLEWARE -----------------
 app.use(express.json());
-app.use(cors({ origin: ["https://talnet-iq.vercel.app","http://localhost:5173"], credentials: true }));
+app.use(cors({ origin: ["https://talnet-iq.vercel.app","http://localhost:5174"], credentials: true }));
 app.use(clerkMiddleware()); // this adds auth field to request object: req.auth()
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
