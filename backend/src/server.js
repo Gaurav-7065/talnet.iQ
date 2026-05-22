@@ -11,6 +11,7 @@ import chatRoutes from "./routes/chatRoutes.js"
 import sessionRoutes from "./routes/sessionRoutes.js"
 
 const app = express();
+app.set("trust proxy", 1);
 
 // ✅ Proper __dirname in ESM (since "type": "module" in backend/package.json)
 const __filename = fileURLToPath(import.meta.url);
