@@ -58,8 +58,10 @@ export async function getActiveSessions(_, res) {
 
 export async function getMyRecentSessions(req, res) {
   try {
+    console.log("REQ USer",req.user)
     const userId = req.user._id;
-
+    console.log("USER ID:", userId);
+  
     // get sessions where user is either host or participant
     const sessions = await Session.find({
       status: "completed",
